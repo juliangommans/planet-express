@@ -3,8 +3,6 @@ do (Backbone) ->
 
   Backbone.sync = (method, entity, options = {}) ->
 
-    console.log "entities", entity
-
     _.defaults options,
       beforeSend: _.bind(methods.beforeSend, entity)
       complete: _.bind(methods.complete, entity)

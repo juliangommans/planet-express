@@ -19,8 +19,8 @@
 
         @show @layout
 
-    onClose: ->
-      console.log "view has been destroyed (list controller)"
+    onDestroy: ->
+      console.info "view has been destroyed (list controller)"
 
     getLayoutView: ->
       new List.Layout
@@ -38,13 +38,15 @@
       @layout.panelRegion.show panelView
 
     newRegion: ->
-      region = @layout.newRegion
-      newView = App.request "new:crew:member:view"
+      # region = @layout.newRegion
+      # newView = App.request "new:crew:member:view"
 
-      @listenTo newView, "form:cancel", =>
-        region.reset()
+      # @listenTo newView, "form:cancel", =>
+      #   region.reset()
 
-      region.show newView
+      # region.show newView
+
+      App.execute "new:crew:member", @layout.newRegion
 
     crewRegion: (crew) ->
 

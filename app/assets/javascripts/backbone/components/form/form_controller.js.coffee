@@ -1,6 +1,6 @@
 @PlanetExpress.module 'Components.Form', (Form, App, Backbone, Marionette, $, _) ->
 
-  class Form.Controller extends Marionette.Controller
+  class Form.Controller extends App.Controllers.Base
 
     initialize:(options = {}) ->
       @contentView = options.view
@@ -8,7 +8,6 @@
       @formLayout = @getFormLayout options.config
 
       @listenTo @formLayout, "show", @formContentRegion
-      @listenTo @formLayout, "destroy", @destroy
       @listenTo @formLayout, "form:submit", @formSubmit
       @listenTo @formLayout, "form:cancel", @formCancel
 
@@ -17,7 +16,6 @@
 
     formSubmit: ->
       data = Backbone.Syphon.serialize @formLayout
-      console.log "data", data
       if @contentView.triggerMethod("form:submit", data) isnt false
         model = @contentView.model
         collection = @contentView.collection
@@ -28,7 +26,8 @@
         collection: collection
 
     formContentRegion: ->
-      @formLayout.formContentRegion.show @contentView
+      @region = @formLayout.formContentRegion
+      @show @contentView
 
     getFormLayout: (options = {}) ->
       config = @getDefaultConfig _.result(@contentView, "form")
